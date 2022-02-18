@@ -1,3 +1,5 @@
-module main
+module github.com/DeviaVir/instio
 
 go 1.16
+
+require github.com/urfave/cli/v2 v2.3.0
