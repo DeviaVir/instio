@@ -7,6 +7,7 @@ require (
 	github.com/boltdb/bolt v1.3.1
 	github.com/gofrs/uuid v4.2.0+incompatible
 	github.com/gorilla/schema v1.2.0
+	github.com/nilslice/email v0.1.0
 	github.com/nilslice/jwt v1.0.0
 	github.com/tidwall/gjson v1.14.0
 	github.com/tidwall/sjson v1.2.4

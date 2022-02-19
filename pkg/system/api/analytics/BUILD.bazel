@@ -1,0 +1,16 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "analytics",
+    srcs = [
+        "backup.go",
+        "batch.go",
+        "init.go",
+    ],
+    importpath = "github.com/DeviaVir/instio/pkg/system/api/analytics",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//pkg/system/cfg",
+        "@com_github_boltdb_bolt//:bolt",
+    ],
+)

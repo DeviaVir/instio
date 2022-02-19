@@ -1,0 +1,32 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "api",
+    srcs = [
+        "cors.go",
+        "create.go",
+        "delete.go",
+        "gzip.go",
+        "handlers.go",
+        "hide.go",
+        "json.go",
+        "omit.go",
+        "push.go",
+        "record.go",
+        "search.go",
+        "server.go",
+        "update.go",
+    ],
+    importpath = "github.com/DeviaVir/instio/pkg/system/api",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//pkg/system/admin/upload",
+        "//pkg/system/api/analytics",
+        "//pkg/system/db",
+        "//pkg/system/item",
+        "//pkg/system/search",
+        "@com_github_gorilla_schema//:schema",
+        "@com_github_tidwall_gjson//:gjson",
+        "@com_github_tidwall_sjson//:sjson",
+    ],
+)

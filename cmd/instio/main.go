@@ -11,6 +11,13 @@ import (
 	"strings"
 	"time"
 
+  _ "github.com/DeviaVir/instio/pkg/content"
+	"github.com/DeviaVir/instio/pkg/system/admin"
+	"github.com/DeviaVir/instio/pkg/system/api"
+	"github.com/DeviaVir/instio/pkg/system/api/analytics"
+	"github.com/DeviaVir/instio/pkg/system/db"
+	"github.com/DeviaVir/instio/pkg/system/tls"
+  
 	"github.com/urfave/cli/v2"
 )
 
@@ -111,21 +118,21 @@ released under the Apache 2.0 license.
 					services = []string{"admin", "api"}
 				}
 
-				// db.Init()
-				// defer db.Close()
+				db.Init()
+				defer db.Close()
 
-				// analytics.Init()
-				// defer analytics.Close()
+				analytics.Init()
+				defer analytics.Close()
 
 				for _, service := range services {
 					switch service {
 					case "api":
 						fmt.Println("[DEBUG] would've started api")
-						// api.Run()
+						api.Run()
 						break
 					case "admin":
 						fmt.Println("[DEBUG] would've started admin")
-						// admin.Run()
+						admin.Run()
 						break
 					default:
 						return ErrWrongOrMissingService
@@ -134,19 +141,21 @@ released under the Apache 2.0 license.
 
 				if c.Bool("docs") {
 					fmt.Println("[DEBUG] would've started docs")
-					// admin.Docs(c.Int("docs_port"))
+					admin.Docs(c.Int("docs_port"))
 				}
 
-				// go db.InitSearchIndex()
+				go db.InitSearchIndex()
 
-				// err := db.PutConfig("https_port", fmt.Sprintf("%d", c.Int("https_port")))
-				// if err != nil {...}
+				err := db.PutConfig("https_port", fmt.Sprintf("%d", c.Int("https_port")))
+				if err != nil {
+          log.Fatalln(fmt.Sprintf("failed to store https_port config in DB: %s", err))
+        }
 
-				// cannot run production HTTPS and development HTTPS together
+				// Cannot run production HTTPS and development HTTPS together.
 				if c.Bool("https_dev") {
 					fmt.Println("[DEBUG] Enabling self-signed HTTPS...")
 
-					// go tls.EnableDev(c.Int("https_port"))
+					go tls.EnableDev()
 					fmt.Println(fmt.Sprintf("Server listening on https://localhost:%d for requests... [DEV]", c.Int("https_port")))
 					fmt.Println("----")
 					fmt.Println("If your browser rejects HTTPS requests, try allowing insecure connections on localhost.")
@@ -154,15 +163,19 @@ released under the Apache 2.0 license.
 				} else if c.Bool("https") {
 					fmt.Println("[DEBUG] Enabling HTTPS...")
 
-					// go tls.Enable(c.Int("https_port"))
+					go tls.Enable()
 					fmt.Printf("Server listening on :%d for HTTPS requests...\n", c.Int("https_port"))
 				}
 
-				// err = db.PutConfig("http_port", fmt.Sprintf("%d", c.Int("http_port")))
-				// if err != nil {...}
+				err = db.PutConfig("http_port", fmt.Sprintf("%d", c.Int("http_port")))
+				if err != nil {
+          log.Fatalln(fmt.Sprintf("failed to store http_port config in DB: %s", err))
+        }
 
-				// err = db.PutConfig("bind_addr", c.String("hostname"))
-				// if err != nil {...}
+				err = db.PutConfig("bind_addr", c.String("hostname"))
+				if err != nil {
+          log.Fatalln(fmt.Sprintf("failed to store bind_addr config in DB: %s", err))
+        }
 
 				fmt.Println(fmt.Sprintf("Server listening on %s:%d for HTTP requests...", c.String("hostname"), c.Int("http_port")))
 				fmt.Println("Visit '/admin' to get started.")

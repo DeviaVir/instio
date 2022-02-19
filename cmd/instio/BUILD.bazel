@@ -8,12 +8,20 @@ go_library(
         "generate.go",
         "main.go",
         "new.go",
-        "utils.go",
         "upgrade.go",
+        "utils.go",
     ],
     importpath = "github.com/DeviaVir/instio/cmd/instio",
     visibility = ["//visibility:private"],
-    deps = ["@com_github_urfave_cli_v2//:cli"],
+    deps = [
+        "//pkg/content",
+        "//pkg/system/admin",
+        "//pkg/system/api",
+        "//pkg/system/api/analytics",
+        "//pkg/system/db",
+        "//pkg/system/tls",
+        "@com_github_urfave_cli_v2//:cli",
+    ],
 )
 
 go_binary(

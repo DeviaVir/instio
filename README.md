@@ -2,12 +2,18 @@
 
 Instantly generate Golang CMS framework components, paired with an easy to use API.
 
-### Bazel
+### Local Development
 
 Run local version:
 
 ```
 $ bazel run //cmd/instio:instio -- [args]
+```
+
+Update go dependencies:
+
+```
+$ go mod tidy
 ```
 
 Update dependencies from `go.mod`:

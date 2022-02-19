@@ -1,0 +1,34 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "admin",
+    srcs = [
+        "admin.go",
+        "export.go",
+        "filesystem.go",
+        "handlers.go",
+        "server.go",
+    ],
+    importpath = "github.com/DeviaVir/instio/pkg/system/admin",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//pkg/management/editor",
+        "//pkg/management/format",
+        "//pkg/management/manager",
+        "//pkg/system",
+        "//pkg/system/addon",
+        "//pkg/system/admin/config",
+        "//pkg/system/admin/upload",
+        "//pkg/system/admin/user",
+        "//pkg/system/api",
+        "//pkg/system/api/analytics",
+        "//pkg/system/cfg",
+        "//pkg/system/db",
+        "//pkg/system/item",
+        "//pkg/system/search",
+        "@com_github_gorilla_schema//:schema",
+        "@com_github_nilslice_email//:go_default_library",
+        "@com_github_nilslice_jwt//:jwt",
+        "@com_github_tidwall_gjson//:gjson",
+    ],
+)

@@ -1,0 +1,17 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "tls",
+    srcs = [
+        "devcerts.go",
+        "enable.go",
+        "enabledev.go",
+    ],
+    importpath = "github.com/DeviaVir/instio/pkg/system/tls",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//pkg/system/cfg",
+        "//pkg/system/db",
+        "@org_golang_x_crypto//acme/autocert",
+    ],
+)
