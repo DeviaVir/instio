@@ -7,10 +7,14 @@ go_library(
         "types.go",
         "upload.go",
     ],
-    importpath = "github.com/example/project/pkg/system/item",
+    importpath = "github.com/DeviaVir/instio/pkg/system/item",
     visibility = ["//visibility:public"],
     deps = [
-        "@com_github_deviavir_instio//pkg/management/editor:go_default_library",
-        "@com_github_gofrs_uuid//:go_default_library",
+        "//pkg/management/editor",
+        "@com_github_blevesearch_bleve//:bleve",
+        "@com_github_blevesearch_bleve//mapping",
+        "@com_github_gofrs_uuid//:uuid",
+        "@org_golang_x_text//transform",
+        "@org_golang_x_text//unicode/norm",
     ],
 )

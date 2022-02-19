@@ -3,7 +3,10 @@ load("@io_bazel_rules_go//go:def.bzl", "go_library")
 go_library(
     name = "reference",
     srcs = ["reference.go"],
-    importpath = "github.com/example/project/pkg/reference",
+    importpath = "github.com/DeviaVir/instio/pkg/reference",
     visibility = ["//visibility:public"],
-    deps = ["@com_github_deviavir_instio//pkg/management/editor:go_default_library"],
+    deps = [
+        "//pkg/management/editor",
+        "//pkg/system/addon",
+    ],
 )

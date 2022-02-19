@@ -3,6 +3,10 @@ load("@io_bazel_rules_go//go:def.bzl", "go_library")
 go_library(
     name = "user",
     srcs = ["auth.go"],
-    importpath = "github.com/example/project/pkg/system/admin/user",
+    importpath = "github.com/DeviaVir/instio/pkg/system/admin/user",
     visibility = ["//visibility:public"],
+    deps = [
+        "@com_github_nilslice_jwt//:jwt",
+        "@org_golang_x_crypto//bcrypt",
+    ],
 )

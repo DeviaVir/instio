@@ -1,0 +1,18 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "search",
+    srcs = [
+        "backup.go",
+        "search.go",
+    ],
+    importpath = "github.com/DeviaVir/instio/pkg/system/search",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//pkg/system/backup",
+        "//pkg/system/cfg",
+        "//pkg/system/item",
+        "@com_github_blevesearch_bleve//:bleve",
+        "@com_github_blevesearch_bleve//mapping",
+    ],
+)

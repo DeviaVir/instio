@@ -1,0 +1,8 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "backup",
+    srcs = ["archive.go"],
+    importpath = "github.com/DeviaVir/instio/pkg/system/backup",
+    visibility = ["//visibility:public"],
+)

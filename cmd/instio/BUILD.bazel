@@ -10,7 +10,7 @@ go_library(
         "new.go",
         "utils.go",
     ],
-    importpath = "github.com/example/project/cmd/instio",
+    importpath = "github.com/DeviaVir/instio/cmd/instio",
     visibility = ["//visibility:private"],
     deps = ["@com_github_urfave_cli_v2//:cli"],
 )
