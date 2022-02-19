@@ -1,4 +1,4 @@
-run = ["bazel", "run", "//cmd/instio:instio"]
+run = ["bazel", "run", "//cmd/instio:instio", "--", "-h"]
 entrypoint = "bazel-bin"
 
 [languages.go]

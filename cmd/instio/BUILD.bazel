@@ -9,6 +9,7 @@ go_library(
         "main.go",
         "new.go",
         "utils.go",
+        "upgrade.go",
     ],
     importpath = "github.com/DeviaVir/instio/cmd/instio",
     visibility = ["//visibility:private"],

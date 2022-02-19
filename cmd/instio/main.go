@@ -30,6 +30,7 @@ var (
 
 func main() {
 	app := cli.NewApp()
+	app.Version = "v0.1.0"
 	app.EnableBashCompletion = true
 
 	app.Usage = "see github.com/DeviaVir/instio for supported commands"
@@ -218,6 +219,42 @@ released under the Apache 2.0 license.
 					return ErrMissingArguments
 				}
 				return newProjectInDir(c, projectName)
+			},
+		},
+		{
+			Name:    "upgrade",
+			Aliases: []string{"u"},
+			Usage:   "upgrade",
+			Action: func(c *cli.Context) error {
+				// Confirm since upgrade will replace Instio core files.
+				path, err := os.Getwd()
+				if err != nil {
+					return fmt.Errorf("Failed to find current directory: %s", err)
+				}
+
+				fmt.Println("Only files you added to this directory, 'addons' and 'content' will be preserved.")
+				fmt.Println("Changes you made to Instio's internal code will be overwritten.")
+				fmt.Println("Upgrade this project? (y/N):")
+
+				answer, err := getAnswer()
+				if err != nil {
+					return err
+				}
+
+				switch answer {
+				case "n", "no", "\r\n", "\n", "":
+					fmt.Println("")
+
+				case "y", "yes":
+					err := upgradeInstioProjectDir(c, path)
+					if err != nil {
+						return err
+					}
+
+				default:
+					fmt.Println("Input not recognized. No upgrade made. Answer as 'y' or 'n' only.")
+				}
+				return nil
 			},
 		},
 	}
