@@ -1,1 +1,5 @@
 vendor/
+bazel-bin*
+bazel-instio*
+bazel-out*
+bazel-testlogs*

@@ -1,5 +1,5 @@
-run = ["go", "run", "main.go"]
-entrypoint = "main.go"
+run = ["bazel", "run", "//cmd/instio:instio"]
+entrypoint = "bazel-bin"
 
 [languages.go]
 pattern = "**/*.go"
