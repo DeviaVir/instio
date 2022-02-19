@@ -1,0 +1,22 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "db",
+    srcs = [
+        "addon.go",
+        "backup.go",
+        "cache.go",
+        "config.go",
+        "content.go",
+        "index.go",
+        "init.go",
+        "upload.go",
+        "user.go",
+    ],
+    importpath = "github.com/example/project/pkg/system/db",
+    visibility = ["//visibility:public"],
+    deps = [
+        "@com_github_gofrs_uuid//:go_default_library",
+        "@com_github_gorilla_schema//:go_default_library",
+    ],
+)

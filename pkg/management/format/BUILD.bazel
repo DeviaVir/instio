@@ -3,6 +3,6 @@ load("@io_bazel_rules_go//go:def.bzl", "go_library")
 go_library(
     name = "format",
     srcs = ["csv.go"],
-    importpath = "github.com/DeviaVir/instio/pkg/management/format",
+    importpath = "github.com/example/project/pkg/management/format",
     visibility = ["//visibility:public"],
 )

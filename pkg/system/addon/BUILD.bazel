@@ -7,9 +7,10 @@ go_library(
         "api.go",
         "manager.go",
     ],
-    importpath = "github.com/DeviaVir/instio/pkg/system/addon",
+    importpath = "github.com/example/project/pkg/system/addon",
     visibility = ["//visibility:public"],
     deps = [
+        "@com_github_deviavir_instio//pkg/management/editor:go_default_library",
         "@com_github_gorilla_schema//:go_default_library",
         "@com_github_tidwall_gjson//:go_default_library",
         "@com_github_tidwall_sjson//:go_default_library",

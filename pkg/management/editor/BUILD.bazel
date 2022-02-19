@@ -9,6 +9,6 @@ go_library(
         "repeaters.go",
         "values.go",
     ],
-    importpath = "github.com/DeviaVir/instio/pkg/management/editor",
+    importpath = "github.com/example/project/pkg/management/editor",
     visibility = ["//visibility:public"],
 )
