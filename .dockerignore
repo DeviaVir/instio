@@ -8,3 +8,4 @@ bazel-out/
 bazel-testlogs/
 instio-cms
 instio-server
+replit.nix

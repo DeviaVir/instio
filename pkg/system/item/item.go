@@ -10,8 +10,8 @@ import (
 	"strings"
 	"unicode"
 
-	"github.com/blevesearch/bleve"
-	"github.com/blevesearch/bleve/mapping"
+	"github.com/blevesearch/bleve/v2"
+	"github.com/blevesearch/bleve/v2/mapping"
 	"github.com/gofrs/uuid"
 	"golang.org/x/text/transform"
 	"golang.org/x/text/unicode/norm"
@@ -24,13 +24,13 @@ func init() {
 	// We store the compiled regex as the key
 	// and assign the replacement as the map's value.
 	rxList = map[*regexp.Regexp][]byte{
-		regexp.MustCompile("`[-]+`"):                                                                         []byte("-"),
-		regexp.MustCompile("[[:space:]]"):                                                                    []byte("-"),
-		regexp.MustCompile("[[:blank:]]"):                                                                    []byte(""),
-		regexp.MustCompile("`[^a-z0-9]`i"):                                                                   []byte("-"),
-		regexp.MustCompile("[!/:-@[-`{-~]"):                                                                  []byte(""),
-		regexp.MustCompile("/[^\x20-\x7F]/"):                                                                 []byte(""),
-		regexp.MustCompile("`&(amp;)?#?[a-z0-9]+;`i"):                                                        []byte("-"),
+		regexp.MustCompile("`[-]+`"):                  []byte("-"),
+		regexp.MustCompile("[[:space:]]"):             []byte("-"),
+		regexp.MustCompile("[[:blank:]]"):             []byte(""),
+		regexp.MustCompile("`[^a-z0-9]`i"):            []byte("-"),
+		regexp.MustCompile("[!/:-@[-`{-~]"):           []byte(""),
+		regexp.MustCompile("/[^\x20-\x7F]/"):          []byte(""),
+		regexp.MustCompile("`&(amp;)?#?[a-z0-9]+;`i"): []byte("-"),
 		regexp.MustCompile("`&([a-z])(acute|uml|circ|grave|ring|cedil|slash|tilde|caron|lig|quot|rsquo);`i"): []byte("\\1"),
 	}
 }

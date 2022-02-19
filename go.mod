@@ -3,7 +3,7 @@ module github.com/DeviaVir/instio
 go 1.16
 
 require (
-	github.com/blevesearch/bleve v1.0.14
+	github.com/blevesearch/bleve/v2 v2.3.0
 	github.com/boltdb/bolt v1.3.1
 	github.com/gofrs/uuid v4.2.0+incompatible
 	github.com/gorilla/schema v1.2.0
