@@ -27,7 +27,7 @@ go_library(
         "//pkg/system/item",
         "//pkg/system/search",
         "@com_github_gorilla_schema//:schema",
-        "@com_github_nilslice_email//:go_default_library",
+        "@com_github_nilslice_email//:email",
         "@com_github_nilslice_jwt//:jwt",
         "@com_github_tidwall_gjson//:gjson",
     ],

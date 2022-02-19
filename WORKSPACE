@@ -21,25 +21,18 @@ http_archive(
 load("@io_bazel_rules_go//go:deps.bzl", "go_register_toolchains", "go_rules_dependencies")
 load("@bazel_gazelle//:deps.bzl", "gazelle_dependencies", "go_repository")
 
+go_rules_dependencies()
+
+go_register_toolchains(version = "1.16.5")
+
+gazelle_dependencies()
+
 go_repository(
     name = "com_github_nilslice_email",
     importpath = "github.com/nilslice/email",
     sum = "h1:QBb/9NM1sbrBRfDco60YiyoJplwHHU1yRocpT5i2uJU=",
     version = "v0.1.0",
 )
-
-go_repository(
-    name = "org_golang_x_tools",
-    importpath = "golang.org/x/tools",
-    sum = "h1:FDhOuMEY4JVRztM/gsbk+IKUQ8kj74bxZrgw87eMMVc=",
-    version = "v0.0.0-20180917221912-90fa682c2a6e",
-)
-
-go_rules_dependencies()
-
-go_register_toolchains(version = "1.16.5")
-
-gazelle_dependencies()
 
 go_repository(
     name = "com_github_burntsushi_toml",
