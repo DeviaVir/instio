@@ -16,10 +16,16 @@ import (
 
 var (
 	// ErrWrongOrMissingService informs a user that the services to run must be
-	// explicitly specified when serve is called
-	ErrWrongOrMissingService = errors.New("Instio currently support only 'admin' and 'api' services.")
+	// explicitly specified when run is called.
+	ErrWrongOrMissingService = errors.New("instio currently supports only 'admin' and 'api' services")
+	// ErrMissingArguments informs a user the CLI was expecting arguments.
+	ErrMissingArguments = errors.New("no arguments supplied")
+	// ErrInternalConflict informs a user we ran into a conflict.
+	ErrInternalConflict = errors.New("internal conflict detected")
 
 	year = fmt.Sprintf("%d", time.Now().Year())
+
+	instioRepo = []string{"github.com", "DeviaVir", "instio"}
 )
 
 func main() {
@@ -74,6 +80,16 @@ released under the Apache 2.0 license.
 			Name:  "gocmd",
 			Value: "go",
 			Usage: "custom go command if using beta or new release of Go (go by default)",
+		},
+		&cli.StringFlag{
+			Name:  "fork",
+			Value: "",
+			Usage: "modify repo source for Instio core development (empty by default)",
+		},
+		&cli.BoolFlag{
+			Name:  "dev",
+			Value: false,
+			Usage: "enable development mode (false by default)",
 		},
 	}
 
@@ -154,6 +170,26 @@ released under the Apache 2.0 license.
 			},
 		},
 		{
+			Name:    "addon",
+			Aliases: []string{"add", "a"},
+			Usage:   "addon <import path>",
+			Action: func(c *cli.Context) error {
+				if c.Args().Len() < 1 {
+					return ErrMissingArguments
+				}
+
+				return getAddon(c)
+			},
+		},
+		{
+			Name:    "build",
+			Aliases: []string{"b"},
+			Usage:   "build [flags]",
+			Action: func(c *cli.Context) error {
+				return buildInstioServer(c)
+			},
+		},
+		{
 			Name:    "generate",
 			Aliases: []string{"gen", "g"},
 			Usage:   "generate <generator type (,...fields)>",
@@ -167,6 +203,21 @@ released under the Apache 2.0 license.
 						return nil
 					},
 				},
+			},
+		},
+		{
+			Name:    "new",
+			Aliases: []string{"n"},
+			Usage:   "new [flags] <project name>",
+			Action: func(c *cli.Context) error {
+				projectName := "instio"
+				if c.Args().Len() > 0 {
+					projectName = c.Args().First()
+				} else {
+					fmt.Println("Please provide a project name.\nThis will create a directory within your $GOPATH/src.")
+					return ErrMissingArguments
+				}
+				return newProjectInDir(c, projectName)
 			},
 		},
 	}

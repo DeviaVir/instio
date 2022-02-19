@@ -3,3 +3,5 @@ bazel-bin*
 bazel-instio*
 bazel-out*
 bazel-testlogs*
+instio-cms
+instio-server

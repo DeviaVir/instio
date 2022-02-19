@@ -1,0 +1,13 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "item",
+    srcs = [
+        "item.go",
+        "types.go",
+        "upload.go",
+    ],
+    importpath = "github.com/DeviaVir/instio/pkg/system/item",
+    visibility = ["//visibility:public"],
+    deps = [],
+)

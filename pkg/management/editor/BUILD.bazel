@@ -1,0 +1,14 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "editor",
+    srcs = [
+        "dom.go",
+        "editor.go",
+        "elements.go",
+        "repeaters.go",
+        "values.go",
+    ],
+    importpath = "github.com/DeviaVir/instio/pkg/management/editor",
+    visibility = ["//visibility:public"],
+)

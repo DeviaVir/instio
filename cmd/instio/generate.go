@@ -10,6 +10,63 @@ import (
 	"text/template"
 )
 
+func generateContentType(args []string) error {
+	name := args[0]
+	fileName := strings.ToLower(name) + ".go"
+
+	// Open file in ./content/ dir,
+	// if exists, alert user of conflict.
+	pwd, err := os.Getwd()
+	if err != nil {
+		return err
+	}
+
+	contentDir := filepath.Join(pwd, "content")
+	filePath := filepath.Join(contentDir, fileName)
+
+	if _, err := os.Stat(filePath); !os.IsNotExist(err) {
+		localFile := filepath.Join("content", fileName)
+		return fmt.Errorf("Please remove '%s' before executing this command", localFile)
+	}
+
+	// Parse type info from args.
+	gt, err := parseType(args)
+	if err != nil {
+		return fmt.Errorf("Failed to parse type args: %s", err.Error())
+	}
+
+	tmplPath := filepath.Join(pwd, "cmd", "instio", "templates", "gen-content.tmpl")
+	tmpl, err := template.ParseFiles(tmplPath)
+	if err != nil {
+		return fmt.Errorf("Failed to parse template: %s", err.Error())
+	}
+
+	buf := &bytes.Buffer{}
+	err = tmpl.Execute(buf, gt)
+	if err != nil {
+		return fmt.Errorf("Failed to execute template: %s", err.Error())
+	}
+
+	fmtBuf, err := format.Source(buf.Bytes())
+	if err != nil {
+		return fmt.Errorf("Failed to format template: %s", err.Error())
+	}
+
+	// no file exists.. ok to write new one
+	file, err := os.Create(filePath)
+	defer file.Close()
+	if err != nil {
+		return err
+	}
+
+	_, err = file.Write(fmtBuf)
+	if err != nil {
+		return fmt.Errorf("Failed to write generated file buffer: %s", err.Error())
+	}
+
+	return nil
+}
+
 type generateType struct {
 	Name          string
 	Initial       string
@@ -355,61 +412,4 @@ func isUnderscore(char rune) bool {
 
 func isHyphen(char rune) bool {
 	return char == '-'
-}
-
-func generateContentType(args []string) error {
-	name := args[0]
-	fileName := strings.ToLower(name) + ".go"
-
-	// Open file in ./content/ dir,
-	// if exists, alert user of conflict.
-	pwd, err := os.Getwd()
-	if err != nil {
-		return err
-	}
-
-	contentDir := filepath.Join(pwd, "content")
-	filePath := filepath.Join(contentDir, fileName)
-
-	if _, err := os.Stat(filePath); !os.IsNotExist(err) {
-		localFile := filepath.Join("content", fileName)
-		return fmt.Errorf("Please remove '%s' before executing this command", localFile)
-	}
-
-	// Parse type info from args.
-	gt, err := parseType(args)
-	if err != nil {
-		return fmt.Errorf("Failed to parse type args: %s", err.Error())
-	}
-
-	tmplPath := filepath.Join(pwd, "cmd", "instio", "templates", "gen-content.tmpl")
-	tmpl, err := template.ParseFiles(tmplPath)
-	if err != nil {
-		return fmt.Errorf("Failed to parse template: %s", err.Error())
-	}
-
-	buf := &bytes.Buffer{}
-	err = tmpl.Execute(buf, gt)
-	if err != nil {
-		return fmt.Errorf("Failed to execute template: %s", err.Error())
-	}
-
-	fmtBuf, err := format.Source(buf.Bytes())
-	if err != nil {
-		return fmt.Errorf("Failed to format template: %s", err.Error())
-	}
-
-	// no file exists.. ok to write new one
-	file, err := os.Create(filePath)
-	defer file.Close()
-	if err != nil {
-		return err
-	}
-
-	_, err = file.Write(fmtBuf)
-	if err != nil {
-		return fmt.Errorf("Failed to write generated file buffer: %s", err.Error())
-	}
-
-	return nil
 }
