@@ -11,3 +11,4 @@ instio-server
 replit.nix
 system.db
 analytics.db
+*.log

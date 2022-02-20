@@ -8,6 +8,8 @@ import (
 	"path/filepath"
 	"strings"
 	"text/template"
+
+  "github.com/DeviaVir/instio/pkg/build/bazel"
 )
 
 func generateContentType(args []string) error {
@@ -26,16 +28,24 @@ func generateContentType(args []string) error {
 
 	if _, err := os.Stat(filePath); !os.IsNotExist(err) {
 		localFile := filepath.Join("content", fileName)
-		return fmt.Errorf("Please remove '%s' before executing this command", localFile)
+		return fmt.Errorf("please remove '%s' before executing this command", localFile)
 	}
 
 	// Parse type info from args.
 	gt, err := parseType(args)
 	if err != nil {
-		return fmt.Errorf("Failed to parse type args: %s", err.Error())
+		return fmt.Errorf("failed to parse type args: %s", err.Error())
 	}
 
-	tmplPath := filepath.Join(pwd, "cmd", "instio", "templates", "gen-content.tmpl")
+  tmplPath := filepath.Join(pwd, "cmd", "instio", "templates", "gen-content.tmpl")
+  if bazel.BuiltWithBazel() {
+    runfilesPath, err := bazel.RunfilesPath()
+    if err != nil {
+      return fmt.Errorf("failed to find bazel runfiles path: %s", err)
+    }
+    tmplPath = filepath.Join(runfilesPath, "templates", "gen-content.tmpl")
+  }
+	
 	tmpl, err := template.ParseFiles(tmplPath)
 	if err != nil {
 		return fmt.Errorf("Failed to parse template: %s", err.Error())
@@ -328,7 +338,17 @@ func setFieldView(field *generateField, viewType string) error {
 		return err
 	}
 
-	tmplDir := filepath.Join(pwd, "cmd", "instio", "templates")
+  tmplDir := filepath.Join(pwd, "cmd", "instio", "templates")
+  if bazel.BuiltWithBazel() {
+    fmt.Println("BUILT WITH BAZEL")
+    runfilesPath, err := bazel.RunfilesPath()
+    if err != nil {
+      return fmt.Errorf("bazel runfiles path error: %s", err)
+    }
+    tmplDir = filepath.Join(runfilesPath, "templates")
+  }
+  fmt.Println(fmt.Sprintf("tmplDir: %s", tmplDir))
+  
 	tmplFromWithDelims := func(filename string, delim [2]string) (*template.Template, error) {
 		if delim[0] == "" || delim[1] == "" {
 			delim = [2]string{"{{", "}}"}

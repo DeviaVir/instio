@@ -1,5 +1,12 @@
 load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library", "go_test")
 
+filegroup(
+    name = "templates",
+    srcs = glob([
+        "templates/*.tmpl",
+    ]),
+)
+
 go_library(
     name = "instio_lib",
     srcs = [
@@ -11,9 +18,13 @@ go_library(
         "upgrade.go",
         "utils.go",
     ],
+    data = [
+        ":templates",
+    ],
     importpath = "github.com/DeviaVir/instio/cmd/instio",
     visibility = ["//visibility:private"],
     deps = [
+        "//pkg/build/bazel",
         "//pkg/content",
         "//pkg/system/admin",
         "//pkg/system/api",

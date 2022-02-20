@@ -7,3 +7,4 @@ instio-cms
 instio-server
 system.db
 analytics.db
+*.log
