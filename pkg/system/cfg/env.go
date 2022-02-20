@@ -25,7 +25,7 @@ func DataDir() string {
 func TlsDir() string {
 	tlsDir := os.Getenv("INSTIO_TLS_DIR")
 	if tlsDir == "" {
-		tlsDir = filepath.Join(getWd(), "system", "tls")
+		tlsDir = filepath.Join(getWd(), "pkg", "system", "tls")
 	}
 	return tlsDir
 }
@@ -33,7 +33,7 @@ func TlsDir() string {
 func AdminStaticDir() string {
 	staticDir := os.Getenv("INSTIO_ADMINSTATIC_DIR")
 	if staticDir == "" {
-		staticDir = filepath.Join(getWd(), "system", "admin", "static")
+		staticDir = filepath.Join(getWd(), "pkg", "system", "admin", "static")
 	}
 	return staticDir
 }
@@ -41,15 +41,16 @@ func AdminStaticDir() string {
 func UploadDir() string {
 	uploadDir := os.Getenv("INSTIO_UPLOAD_DIR")
 	if uploadDir == "" {
-		uploadDir = filepath.Join(DataDir(),"uploads")
+		uploadDir = filepath.Join(DataDir(), "uploads")
 	}
+
 	return uploadDir
 }
 
 func SearchDir() string {
 	searchDir := os.Getenv("INSTIO_SEARCH_DIR")
 	if searchDir == "" {
-		searchDir = filepath.Join(DataDir(),"search")
+		searchDir = filepath.Join(DataDir(), "search")
 	}
 	return searchDir
 }

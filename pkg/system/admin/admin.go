@@ -129,7 +129,7 @@ var initAdminHTML = `
     <form method="post" action="/admin/init" class="row">
         <div>Configuration</div>
         <div class="input-field col s12">        
-            <input placeholder="Enter the name of your site (interal use only)" class="validate required" type="text" id="name" name="name"/>
+            <input placeholder="Enter the name of your site (internal use only)" class="validate required" type="text" id="name" name="name"/>
             <label for="name" class="active">Site Name</label>
         </div>
         <div class="input-field col s12">        

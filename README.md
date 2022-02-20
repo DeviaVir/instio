@@ -7,7 +7,7 @@ Instantly generate Golang CMS framework components, paired with an easy to use A
 Run local version:
 
 ```
-$ bazel run //cmd/instio:instio -- [args]
+$ bazel run --run_under "cd $PWD && " //cmd/instio:instio -- [args]
 ```
 
 Update go dependencies:

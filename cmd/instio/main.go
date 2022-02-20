@@ -127,11 +127,9 @@ released under the Apache 2.0 license.
 				for _, service := range services {
 					switch service {
 					case "api":
-						fmt.Println("[DEBUG] would've started api")
 						api.Run()
 						break
 					case "admin":
-						fmt.Println("[DEBUG] would've started admin")
 						admin.Run()
 						break
 					default:
@@ -140,7 +138,6 @@ released under the Apache 2.0 license.
 				}
 
 				if c.Bool("docs") {
-					fmt.Println("[DEBUG] would've started docs")
 					admin.Docs(c.Int("docs_port"))
 				}
 

@@ -5,3 +5,5 @@ bazel-out*
 bazel-testlogs*
 instio-cms
 instio-server
+system.db
+analytics.db

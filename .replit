@@ -1,5 +1,12 @@
-run = ["bazel", "run", "//cmd/instio:instio", "--", "-h"]
-entrypoint = "bazel-bin"
+run = [
+  "cd", "/home/runner/instio", "&&",
+  "bazel", "run", 
+  "--run_under=\"cd $PWD && \"", 
+  "//cmd/instio:instio", 
+  "--", 
+  "--hostname", "0.0.0.0", 
+  "run"]
+entrypoint = "bash"
 
 [languages.go]
 pattern = "**/*.go"
