@@ -5,5 +5,6 @@
         pkgs.bazel_4
         pkgs.adoptopenjdk-bin
         pkgs.less
+        pkgs.docker
     ];
 }

@@ -9,6 +9,13 @@ load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
 
 http_archive(
+    name = "io_bazel_rules_docker",
+    sha256 = "85ffff62a4c22a74dbd98d05da6cf40f497344b3dbf1e1ab0a37ab2a1a6ca014",
+    strip_prefix = "rules_docker-0.23.0",
+    urls = ["https://github.com/bazelbuild/rules_docker/releases/download/v0.23.0/rules_docker-v0.23.0.tar.gz"],
+)
+
+http_archive(
     name = "io_bazel_rules_go",
     sha256 = "8e968b5fcea1d2d64071872b12737bbb5514524ee5f0a4f54f5920266c261acb",
     urls = [
@@ -47,3 +54,17 @@ go_register_toolchains(version = "1.16.5")
 gazelle_dependencies()
 
 protobuf_deps()
+
+load(
+    "@io_bazel_rules_docker//repositories:repositories.bzl",
+    container_repositories = "repositories",
+)
+
+container_repositories()
+
+load(
+    "@io_bazel_rules_docker//go:image.bzl",
+    _go_image_repos = "repositories",
+)
+
+_go_image_repos()
