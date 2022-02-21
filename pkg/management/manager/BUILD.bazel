@@ -8,6 +8,6 @@ go_library(
     deps = [
         "//pkg/management/editor",
         "//pkg/system/item",
-        "@com_github_gofrs_uuid//:uuid",
+        "@com_github_gofrs_uuid//:go_default_library",
     ],
 )

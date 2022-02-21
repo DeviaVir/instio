@@ -12,7 +12,7 @@ go_library(
         "//pkg/system/backup",
         "//pkg/system/cfg",
         "//pkg/system/item",
-        "@com_github_blevesearch_bleve_v2//:bleve",
-        "@com_github_blevesearch_bleve_v2//mapping",
+        "@com_github_blevesearch_bleve_v2//:go_default_library",
+        "@com_github_blevesearch_bleve_v2//mapping:go_default_library",
     ],
 )

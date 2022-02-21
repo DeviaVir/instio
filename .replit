@@ -1,4 +1,5 @@
 run = [
+  "bash", "-c",
   "cd", "/home/runner/instio", "&&",
   "bazel", "run", 
   "--run_under=\"cd $PWD && \"", 

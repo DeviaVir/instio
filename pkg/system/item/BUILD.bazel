@@ -11,10 +11,10 @@ go_library(
     visibility = ["//visibility:public"],
     deps = [
         "//pkg/management/editor",
-        "@com_github_blevesearch_bleve_v2//:bleve",
-        "@com_github_blevesearch_bleve_v2//mapping",
-        "@com_github_gofrs_uuid//:uuid",
-        "@org_golang_x_text//transform",
-        "@org_golang_x_text//unicode/norm",
+        "@com_github_blevesearch_bleve_v2//:go_default_library",
+        "@com_github_blevesearch_bleve_v2//mapping:go_default_library",
+        "@com_github_gofrs_uuid//:go_default_library",
+        "@org_golang_x_text//transform:go_default_library",
+        "@org_golang_x_text//unicode/norm:go_default_library",
     ],
 )

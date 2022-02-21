@@ -11,6 +11,6 @@ go_library(
     visibility = ["//visibility:public"],
     deps = [
         "//pkg/system/cfg",
-        "@com_github_boltdb_bolt//:bolt",
+        "@com_github_boltdb_bolt//:go_default_library",
     ],
 )

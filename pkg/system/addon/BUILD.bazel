@@ -13,8 +13,8 @@ go_library(
         "//pkg/management/editor",
         "//pkg/system/db",
         "//pkg/system/item",
-        "@com_github_gorilla_schema//:schema",
-        "@com_github_tidwall_gjson//:gjson",
-        "@com_github_tidwall_sjson//:sjson",
+        "@com_github_gorilla_schema//:go_default_library",
+        "@com_github_tidwall_gjson//:go_default_library",
+        "@com_github_tidwall_sjson//:go_default_library",
     ],
 )
