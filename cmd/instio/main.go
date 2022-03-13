@@ -204,13 +204,25 @@ released under the Apache 2.0 license.
 			Name:    "generate",
 			Aliases: []string{"gen", "g"},
 			Usage:   "generate <generator type (,...fields)>",
+      Flags: []cli.Flag{
+    		&cli.BoolFlag{
+    			Name:  "source",
+    			Value: false,
+    			Usage: "define whether to generate content from source file (false by default)",
+    		},
+        &cli.BoolFlag{
+    			Name:  "output",
+    			Value: false,
+    			Usage: "define whether to write content template to file (false by default)",
+    		},
+      },
 			Subcommands: []*cli.Command{
 				{
 					Name:    "content",
 					Aliases: []string{"con", "c"},
 					Usage:   "content <namespace> <field> <field>...",
 					Action: func(c *cli.Context) error {
-						generateContentType(c.Args().Slice())
+						generate(c.Args().Slice(), c.Bool("source"), c.Bool("output"))
 						return nil
 					},
 				},

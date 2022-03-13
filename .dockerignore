@@ -12,3 +12,7 @@ replit.nix
 system.db
 analytics.db
 *.log
+uploads/
+WORKSPACE
+DEPS.bzl
+BUILD.bazel

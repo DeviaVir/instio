@@ -13,10 +13,10 @@ import (
 )
 
 // QueryOptions is a mirror of the same struct in db package and are re-declared
-// here only to make the API simpler for the caller
+// here only to make the API simpler for the caller.
 type QueryOptions db.QueryOptions
 
-// ContentAll retrives all items from the HTTP API within the provided namespace
+// ContentAll retrieves all items from the HTTP API within the provided namespace.
 func ContentAll(namespace string) []byte {
 	addr := db.ConfigCache("bind_addr").(string)
 	port := db.ConfigCache("http_port").(string)
@@ -33,7 +33,7 @@ func ContentAll(namespace string) []byte {
 }
 
 // Query retrieves a set of content from the HTTP API  based on options
-// and returns the total number of content in the namespace and the content
+// and returns the total number of content in the namespace and the content.
 func Query(namespace string, opts QueryOptions) []byte {
 	addr := db.ConfigCache("bind_addr").(string)
 	port := db.ConfigCache("http_port").(string)
@@ -49,7 +49,7 @@ func Query(namespace string, opts QueryOptions) []byte {
 	return j
 }
 
-// Get is a helper function to make a HTTP call from an addon
+// Get is a helper function to make a HTTP call from an addon.
 func Get(endpoint string) ([]byte, error) {
 	buf := []byte{}
 	r := bytes.NewReader(buf)

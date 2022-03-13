@@ -8,3 +8,4 @@ instio-server
 system.db
 analytics.db
 *.log
+uploads/

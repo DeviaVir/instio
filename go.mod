@@ -3,6 +3,7 @@ module github.com/DeviaVir/instio
 go 1.16
 
 require (
+	github.com/DeviaVir/instio-addon-reference v0.0.0-20220313131842-ac087878a6d4 // indirect
 	github.com/bazelbuild/rules_go v0.30.0
 	github.com/blevesearch/bleve/v2 v2.3.0
 	github.com/boltdb/bolt v1.3.1

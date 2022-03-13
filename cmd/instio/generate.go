@@ -2,8 +2,10 @@ package main
 
 import (
 	"bytes"
+  "encoding/json"
 	"fmt"
 	"go/format"
+  "io/ioutil"
 	"os"
 	"path/filepath"
 	"strings"
@@ -23,11 +25,11 @@ func generateContentType(args []string) error {
 		return err
 	}
 
-	contentDir := filepath.Join(pwd, "content")
+	contentDir := filepath.Join(pwd, "pkg", "content")
 	filePath := filepath.Join(contentDir, fileName)
 
 	if _, err := os.Stat(filePath); !os.IsNotExist(err) {
-		localFile := filepath.Join("content", fileName)
+		localFile := filepath.Join("content", "pkg", fileName)
 		return fmt.Errorf("please remove '%s' before executing this command", localFile)
 	}
 
@@ -432,4 +434,116 @@ func isUnderscore(char rune) bool {
 
 func isHyphen(char rune) bool {
 	return char == '-'
+}
+
+func generate(args []string, fromSource, writeOutput bool) error {
+	var err error
+
+	if fromSource {
+		args, err = parseSourceFile(args)
+		if err != nil {
+			return err
+		}
+	}
+
+	err = generateContentType(args)
+	if err != nil {
+		return err
+	}
+
+	if writeOutput && !fromSource {
+		err = generateOutputFile(args)
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+func parseSourceFile(args []string) ([]string, error) {
+	name := args[0]
+	fileName := strings.ToLower(name) + ".json"
+
+	// Open file in ./content/ dir
+	// if not exists, alert user.
+	pwd, err := os.Getwd()
+	if err != nil {
+		return args, err
+	}
+
+	contentDir := filepath.Join(pwd, "pkg", "content")
+	filePath := filepath.Join(contentDir, fileName)
+
+	if _, err := os.Stat(filePath); os.IsNotExist(err) {
+		localFile := filepath.Join("pkg", "content", fileName)
+		return args, fmt.Errorf("Please create '%s' before executing this command", localFile)
+	}
+
+	// Read data from file.
+	file, err := ioutil.ReadFile(filePath)
+	if err != nil {
+		return args, err
+	}
+
+	data := make(map[string]string)
+	err = json.Unmarshal(file, &data)
+	if err != nil {
+		return args, err
+	}
+
+	// Add data to args.
+	argsFromSource := []string{args[0]}
+	for k, v := range data {
+		argsFromSource = append(argsFromSource, k+":"+v)
+	}
+
+	return argsFromSource, nil
+}
+
+func generateOutputFile(args []string) error {
+	name := args[0]
+	fileName := strings.ToLower(name) + ".json"
+
+	// Open file in ./content/ dir
+	// if exists, alert user of conflict.
+	pwd, err := os.Getwd()
+	if err != nil {
+		return err
+	}
+
+	contentDir := filepath.Join(pwd, "pkg", "content")
+	filePath := filepath.Join(contentDir, fileName)
+
+	if _, err := os.Stat(filePath); !os.IsNotExist(err) {
+		localFile := filepath.Join("pkg", "content", fileName)
+		return fmt.Errorf("Please remove '%s' before executing this command", localFile)
+	}
+
+	// Write args to file.
+	fields := args[1:]
+	output := make(map[string]string, len(fields))
+	for _, field := range fields {
+		data := strings.Split(field, ":")
+		output[data[0]] = strings.Join(data[1:], ":")
+	}
+
+	jsonOutput, err := json.Marshal(output)
+	if err != nil {
+		return err
+	}
+
+	// No file exists.. OK to write new one.
+	file, err := os.Create(filePath)
+	defer file.Close()
+	if err != nil {
+		return err
+	}
+
+	_, err = file.Write(jsonOutput)
+	if err != nil {
+		return fmt.Errorf("Failed to write generated file buffer: %s", err.Error())
+	}
+
+	return nil
 }
